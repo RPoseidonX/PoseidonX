@@ -1,3 +1,7 @@
+<script>
+	var version = "1.0.0";
+</script>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +36,7 @@
             monaco.languages.setMonarchTokensProvider('luaBlox', {
     tokenizer: {
         root: [
-            [/\b(getloadedmodules|getgc|debug.traceback|debug.setmemorycategory|debug.resetmemorycategory|debug.profileend|debug.profilebegin|debug.info|debug.getmemorycategory|debug.dumpcodesize|DateTime.now|DateTime.fromIsoDate|DateTime.fromLocalTime|DateTime.fromUniversalTime|DateTime.fromUnixTimestamp|DateTime.fromUnixTimestampMillis|DateTime|SharedTable.increment|table.freeze|table.getn|table.clear|table.clone|table.create|buffer.tostring|buffer.fromstring|buffer.create|buffer|Color3.fromRGB|Color3.fromHex|Color3.fromHSV|Color3.new|Color3|BrickColor|getscripts|getcallingscript|getsenv|getinstances|getnilinstances|firetouchinterest|fireclickdetector|firesignal|getconnections|assert|error|select|string.len|script|math.floor|math.random|math|newproxy|Font.fromEnum|Font.fromId|Font.fromName|Enum|Font.new|Font|workspace|task.spawn|coroutine.wrap|pairs|ipairs|pcall|xpcall|warn|string.lower|string.upper|table.insert|getgenv|getrenv|getreg|os.date|os.time|string.gsub|string.split|table.concat|table.find|table.remove|game|print|task.wait|task.delay|task|bit32|coroutine|_G|getfenv|shared|_VERSION|SharedTable|os|gcinfo|getmetatable|getexecutorname|identifyexecutor|debug|table|string|tostring|tonumber)\b/, 'globals'],
+            [/\b(Vector2.new|Vector3.new|UDim2.fromOffset|UDim2.fromScale|UDim2.new|UDim.new|Instance.fromExisting|Instance.new|Instance|tick|time|os.clock|os.difftime|utf8.offset|utf8|Axes|UDim2|UDim|Vector2|Vector3|Vector2int16|Vector3int16|Faces.new|Faces|Font.new|Font|checkcaller|islclosure|iscclosure|dumpstring|decompile|loadstring|task.desynchronize|mousemoveabs|mousemoverel|mousescroll|mouse2release|mouse2press|mouse2click|mouse1release|mouse1press|mouse1click|keyrelease|keypress|isrbxactive|isreadonly|setreadonly|setrawmetatable|getrawmetatable|getloadedmodules|getgc|debug.traceback|debug.setmemorycategory|debug.resetmemorycategory|debug.profileend|debug.profilebegin|debug.info|debug.getmemorycategory|debug.dumpcodesize|DateTime.now|DateTime.fromIsoDate|DateTime.fromLocalTime|DateTime.fromUniversalTime|DateTime.fromUnixTimestamp|DateTime.fromUnixTimestampMillis|DateTime|SharedTable.increment|table.freeze|table.getn|table.clear|table.clone|table.create|buffer.tostring|buffer.fromstring|buffer.create|buffer|Color3.fromRGB|Color3.fromHex|Color3.fromHSV|Color3.new|Color3|BrickColor|getscripts|getcallingscript|getsenv|getinstances|getnilinstances|firetouchinterest|fireclickdetector|firesignal|getconnections|assert|error|select|string.len|script|math.floor|math.random|math|newproxy|Font.fromEnum|Font.fromId|Font.fromName|Enum|Font.new|Font|workspace|task.spawn|coroutine.wrap|pairs|ipairs|pcall|xpcall|warn|string.lower|string.upper|table.insert|getgenv|getrenv|getreg|os.date|os.time|string.gsub|string.split|table.concat|table.find|table.remove|game|print|task.wait|task.delay|task|bit32|coroutine|_G|getfenv|shared|_VERSION|SharedTable|os|gcinfo|getmetatable|getexecutorname|identifyexecutor|debug|table|string|tostring|tonumber)\b/, 'globals'],
 
             [/("([^"\\]|\\.)*")\s*([\+\-*/]\s*[a-zA-Z_][\w]*)*\s*\(\s*\)/, 'customHighlight'],
 
@@ -60,6 +64,8 @@
             [/--\[\[/, 'comment', '@comment_long'],
             [/--.*$/, 'comment'],
 
+            [/\[\[/, { token: 'string', next: '@string_long' }],
+
         ],
 
         comment_long: [
@@ -86,9 +92,9 @@
         ],
 
         string_long: [
-            [/.*?\]\]/, 'string', '@pop'],
-            [/[^]/, 'string']
-        ],
+        [/.*?\]\]/, 'string', '@pop'],
+        [/[^]/, 'string']
+            ],
     },
 
     keywords: ['and', 'break', 'do', 'else', 'elseif', 'end', 'false', 'for', 'function',
@@ -108,6 +114,7 @@
                     token: "globals",
                     foreground: "66d7f7"
                 },
+                
                 {
                     token: "customHighlight",
                     foreground:"6b9855"
@@ -126,10 +133,194 @@
           {
               label: 'print()',
               kind: monaco.languages.CompletionItemKind.Function,
-              insertText: 'print(${1:msg})',
+              insertText: 'print(${0:})',
               insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
               detail: 'Print',
               documentation: 'Prints a message to the console.'
+            },
+            {
+              label: 'islclosure()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'islclosure(${0:})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Is Lua Closure',
+              documentation: "Returns true if f is an LClosure"
+            },
+            {
+              label: 'dumpstring()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'dumpstring(${0:})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Dump String',
+              documentation: "Returns the Roblox formatted bytecode for source string Script."
+            },
+            {
+              label: 'decompile()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'decompile(${0:})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Decompile',
+              documentation: "Decompiles Script and returns the decompiled script. If the decompilation fails, then the return value will be an error message."
+            },
+            {
+              label: 'iscclosure()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'iscclosure(${0:})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Is C Closure',
+              documentation: "Returns true if f is an CClosure"
+            },
+            {
+              label: 'checkcaller()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'checkcaller()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Check Caller',
+              documentation: "Returns true if the current thread was made by Synapse. Useful for metatable hooks."
+            },
+            {
+              label: 'hookfunction()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'hookfunction()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Hook Function',
+              documentation: "Hooks function 'old', replacing it with the function 'hook'. The old function is returned, you must use it to call the function further."
+            },
+            {
+              label: 'newcclosure()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'newcclosure()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'New C Closure',
+              documentation: "Pushes a new CClosure that invokes function f upon call. Used for metatable hooks."
+            },
+            {
+              label: 'isrbxactive()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'isrbxactive()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Is Roblox Active',
+              documentation: "Returns if the Roblox window is in focus. This must return true for any other mouse/keyboard function to work."
+            },
+            {
+              label: 'keypress()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'keypress(${0:})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Key Press',
+              documentation: "Simulates a key press for the specified keycode."
+            },
+            {
+              label: 'keyrelease()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'keyrelease(${0:})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Key Release',
+              documentation: "Releases key on the keyboard. You can access the int key values on MSDN."
+            },
+            {
+              label: 'mouse1click()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'mouse1click()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Mouse 1 Click',
+              documentation: "Simulates a full left mouse button press."
+            },
+            {
+              label: 'mouse1press()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'mouse1press()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Mouse 1 Press',
+              documentation: "Simulates a left mouse button press without releasing it."
+            },
+            {
+              label: 'mouse1click()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'mouse1click()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Mouse 1 Click',
+              documentation: "Simulates a full left mouse button press."
+            },
+            {
+              label: 'mouse1release()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'mouse1release()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Mouse 1 Release',
+              documentation: "Simulates a left mouse button release."
+            },
+            {
+              label: 'mouse2click()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'mouse2click()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Mouse 2 Click',
+              documentation: "Simulates a full right mouse button press."
+            },
+            {
+              label: 'mouse2press()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'mouse2press()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Mouse 2 Press',
+              documentation: "Clicks down on the right mouse button."
+            },
+            {
+              label: 'mouse2release()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'mouse2release()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Mouse 2 Release',
+              documentation: "Simulates a right mouse button release."
+            },
+            {
+              label: 'mousescroll()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'mousescroll()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Mouse Scroll',
+              documentation: "Scrolls the mouse wheel virtually by px pixels."
+            },
+            {
+              label: 'mousemoverel()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'mousemoverel()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Mouse Move Relatively',
+              documentation: "Moves the mouse cursor relatively to the current mouse position by coordinates x and y."
+            },
+            {
+              label: 'mousemoveabs()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'mousemoveabs()',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Mouse Move Abs',
+              documentation: "Move's your mouse to the x and y coordinates in pixels from topleft of the roblox window."
+            },
+            {
+              label: 'setrawmetatable()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'setrawmetatable(${0:})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Set Raw Metatable',
+              documentation: "Sets o's metatable to mt even if the __metatable field exists in o's metatable."
+            },
+            {
+              label: 'setreadonly()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'setreadonly(${0:})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Set Read Only',
+              documentation: "Sets table's read-only value to val."
+            },
+            {
+              label: 'isreadonly()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'isreadonly(${0:})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Is Read Only',
+              documentation: "Returns table's read-only condition."
             },
             {
               label: 'getsenv()',
@@ -138,6 +329,14 @@
               insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
               detail: 'Get Script Environment',
               documentation: 'Returns the environment of Script. Returns nil if the script is not running.'
+            },
+            {
+              label: 'getrawmetatable()',
+              kind: monaco.languages.CompletionItemKind.Function,
+              insertText: 'getrawmetatable(${0:})',
+              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+              detail: 'Get Raw Metatable',
+              documentation: "Retrieve the metatable of value irregardless of value's metatable's __metatable field. Returns nil if it doesn't exist."
             },
             {
               label: 'getcallingscript()',
@@ -265,7 +464,7 @@
               insertText: 'loadstring(${0:...})',
               insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
               detail: 'Load string',
-              documentation: 'Loads Lua code from a string and returns it as a function.'
+              documentation: 'Loads chunk as a lua function and returns it if compilation is succesful. Otherwise, if an error has occured during compilation, nil followed by the error message will be returned.'
             },
             {
               label: 'pairs()',
