@@ -32,14 +32,12 @@
             monaco.languages.setMonarchTokensProvider('luaBlox', {
     tokenizer: {
         root: [
-            // Highlight specific globals
-            [/\b(table.freeze|table.getn|table.clear|table.clone|table.create|buffer.tostring|buffer.fromstring|buffer.create|buffer|Color3.fromRGB|Color3.fromHex|Color3.fromHSV|Color3.new|Color3|BrickColor|getscripts|getcallingscript|getsenv|getinstances|getnilinstances|firetouchinterest|fireclickdetector|firesignal|getconnections|assert|error|select|string.len|script|math.floor|math.random|math|newproxy|Font.fromEnum|Font.fromId|Font.fromName|Enum|Font.new|Font|workspace|task.spawn|coroutine.wrap|pairs|ipairs|pcall|xpcall|warn|string.lower|string.upper|table.insert|getgenv|getrenv|getreg|os.date|os.time|string.gsub|string.split|table.concat|table.find|table.remove|game|print|task.wait|task.delay|task|bit32|coroutine|_G|getfenv|shared|_VERSION|SharedTable|os|gcinfo|getmetatable|getexecutorname|identifyexecutor|debug|table|string|tostring|tonumber)\b/, 'globals'],
+            [/\b(getloadedmodules|getgc|debug.traceback|debug.setmemorycategory|debug.resetmemorycategory|debug.profileend|debug.profilebegin|debug.info|debug.getmemorycategory|debug.dumpcodesize|DateTime.now|DateTime.fromIsoDate|DateTime.fromLocalTime|DateTime.fromUniversalTime|DateTime.fromUnixTimestamp|DateTime.fromUnixTimestampMillis|DateTime|SharedTable.increment|table.freeze|table.getn|table.clear|table.clone|table.create|buffer.tostring|buffer.fromstring|buffer.create|buffer|Color3.fromRGB|Color3.fromHex|Color3.fromHSV|Color3.new|Color3|BrickColor|getscripts|getcallingscript|getsenv|getinstances|getnilinstances|firetouchinterest|fireclickdetector|firesignal|getconnections|assert|error|select|string.len|script|math.floor|math.random|math|newproxy|Font.fromEnum|Font.fromId|Font.fromName|Enum|Font.new|Font|workspace|task.spawn|coroutine.wrap|pairs|ipairs|pcall|xpcall|warn|string.lower|string.upper|table.insert|getgenv|getrenv|getreg|os.date|os.time|string.gsub|string.split|table.concat|table.find|table.remove|game|print|task.wait|task.delay|task|bit32|coroutine|_G|getfenv|shared|_VERSION|SharedTable|os|gcinfo|getmetatable|getexecutorname|identifyexecutor|debug|table|string|tostring|tonumber)\b/, 'globals'],
 
             [/("([^"\\]|\\.)*")\s*([\+\-*/]\s*[a-zA-Z_][\w]*)*\s*\(\s*\)/, 'customHighlight'],
 
             [/\b\d+(\.\d+)?([eE][+\-]?\d+)?\b/, 'number'],
 
-            // Handle other tokens
             [/[{}]/, 'delimiter.bracket'],
             [/[a-z_$][\w$]*/, {
                 cases: {
@@ -50,31 +48,29 @@
             [/[A-Z][\w\$]*/, 'type.identifier'],
             { include: '@whitespace' },
             [/[()[\]]/, '@brackets'],
-            [/[-+/*%=!<>&|^~?:]+/, 'operator'], // Modified to avoid catching '-' as negative sign in numbers
+            [/[-+/*%=!<>&|^~?:]+/, 'operator'],
             [/[;,.]/, 'delimiter'],
 
-            // Handle strings
-            [/"([^"\\]|\\.)*$/, 'string.invalid'],  // Non-terminated string
-            [/'([^'\\]|\\.)*$/, 'string.invalid'],  // Non-terminated string
+            [/"([^"\\]|\\.)*$/, 'string.invalid'],
+            [/'([^'\\]|\\.)*$/, 'string.invalid'], 
             [/"/, 'string', '@string_double'],
             [/'/, 'string', '@string_single'],
-            [/\[\[/, 'string', '@string_long'], // Start of long strings
+            [/\[\[/, 'string', '@string_long'], 
 
-            // Handle comments
-            [/--\[\[/, 'comment', '@comment_long'], // Start of long comments
-            [/--.*$/, 'comment'], // Single line comments
+            [/--\[\[/, 'comment', '@comment_long'],
+            [/--.*$/, 'comment'],
 
         ],
 
         comment_long: [
-            [/.*?\]\]/, 'comment', '@pop'], // End of long comment
-            [/[^]/, 'comment'] // Match any character within the comment
+            [/.*?\]\]/, 'comment', '@pop'],
+            [/[^]/, 'comment']
         ],
 
         whitespace: [
             [/[ \t\r\n]+/, 'white'],
-            [/--\[\[/, 'comment', '@comment_long'], // Start of long comments
-            [/--.*$/, 'comment'], // Single line comments
+            [/--\[\[/, 'comment', '@comment_long'],
+            [/--.*$/, 'comment'],
         ],
 
         string_double: [
@@ -90,8 +86,8 @@
         ],
 
         string_long: [
-            [/.*?\]\]/, 'string', '@pop'], // End of long string
-            [/[^]/, 'string'] // Match any character within the string
+            [/.*?\]\]/, 'string', '@pop'],
+            [/[^]/, 'string']
         ],
     },
 
